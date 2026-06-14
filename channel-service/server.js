@@ -15,5 +15,6 @@ app.get('/health', (req, res) => res.json({ ok: true }));
 app.use('/channel', channelRoutes);
 
 app.listen(PORT, () => {
-  console.log(`📡 OutReach Channel Service running on http://localhost:${PORT}`);
+  const url = process.env.NODE_ENV === 'production' ? 'Production server' : `http://localhost:${PORT}`;
+  console.log(`📡 OutReach Channel Service running on ${url} (Port: ${PORT})`);
 });

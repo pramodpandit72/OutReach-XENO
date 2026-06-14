@@ -124,5 +124,6 @@ app.use('/api/ai', aiRoutes);
 app.use(errorMiddleware);
 
 app.listen(PORT, () => {
-  console.log(`🚀 OutReach CRM Backend running on http://localhost:${PORT}`);
+  const url = process.env.NODE_ENV === 'production' ? 'Production server' : `http://localhost:${PORT}`;
+  console.log(`🚀 OutReach CRM Backend running on ${url} (Port: ${PORT})`);
 });
