@@ -20,7 +20,7 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/failure' }),
   (req, res) => {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://out-reach-xeno.vercel.app';
     res.redirect(`${frontendUrl}/dashboard`);
   }
 );
@@ -79,7 +79,7 @@ router.post('/logout', (req, res, next) => {
 
 // GET /auth/failure
 router.get('/failure', (req, res) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://out-reach-xeno.vercel.app';
   res.redirect(`${frontendUrl}?error=google_auth_failed`);
 });
 

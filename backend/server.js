@@ -29,7 +29,8 @@ connectDB();
 // CORS – must be before routes and session
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
+    process.env.FRONTEND_URL || 'https://out-reach-xeno.vercel.app',
+    'http://localhost:5173',
     'http://127.0.0.1:5173',
   ],
   credentials: true,
@@ -58,7 +59,7 @@ passport.use(new GoogleStrategy(
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     // Use localhost (not 127.0.0.1) to match Google Console URI
-    callbackURL: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:8000/auth/google/callback',
+    callbackURL: process.env.GOOGLE_REDIRECT_URI || 'https://outreach-xeno.onrender.com/auth/google/callback',
     proxy: true,
   },
   async (accessToken, refreshToken, profile, done) => {

@@ -74,8 +74,8 @@ export const sendCampaign = async (req, res, next) => {
     await campaign.save();
 
     // Create communication records & call channel service
-    const channelServiceUrl = process.env.CHANNEL_SERVICE_URL || 'http://localhost:8001';
-    const crmBaseUrl = process.env.CRM_BASE_URL || 'http://localhost:8000';
+    const channelServiceUrl = process.env.CHANNEL_SERVICE_URL || 'https://outreach-channel-service.onrender.com';
+    const crmBaseUrl = process.env.CRM_BASE_URL || 'https://outreach-xeno.onrender.com';
 
     const communications = [];
     for (const customer of customers) {
