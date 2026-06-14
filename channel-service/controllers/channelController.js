@@ -9,7 +9,7 @@ export const handleSend = async (req, res) => {
       return res.status(400).json({ error: 'No recipients provided' });
     }
 
-    const crmCallback = callbackUrl || process.env.CRM_RECEIPT_URL;
+    const crmCallback = callbackUrl || process.env.CRM_RECEIPT_URL || 'http://localhost:8000/api/receipts';
     console.log(`📨 Channel service received ${recipients.length} messages for campaign ${campaignId} via ${channel}`);
 
     // Start async simulation – do NOT await, return 200 immediately

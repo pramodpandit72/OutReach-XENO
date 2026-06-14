@@ -4,7 +4,7 @@ import { Radio, Sparkles, Users, BarChart3, Target, Loader2, Eye, EyeOff } from 
 import toast from 'react-hot-toast';
 import { loginUser, registerUser } from '../services/api';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://outreach-xeno.onrender.com';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const features = [
   { icon: Users, label: 'Smart Segmentation', desc: 'AI-powered audience targeting' },
