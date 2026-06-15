@@ -38,12 +38,20 @@ const frontendUrl = process.env.FRONTEND_URL ||
                       ? 'https://out-reach-xeno.vercel.app' 
                       : 'http://localhost:5173');
 
+const isAllowedDevOrigin = (origin) => /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+
 app.use(cors({
-  origin: [
-    frontendUrl,
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-  ],
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (origin === frontendUrl || isAllowedDevOrigin(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked origin: ${origin}`));
+  },
   credentials: true,
 }));
 

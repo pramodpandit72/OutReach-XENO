@@ -4,18 +4,19 @@ import User from '../models/User.js';
 export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+    const normalizedEmail = email?.trim().toLowerCase();
 
-    if (!name || !email || !password)
+    if (!name || !normalizedEmail || !password)
       return res.status(400).json({ error: 'Name, email and password are required' });
 
     if (password.length < 6)
       return res.status(400).json({ error: 'Password must be at least 6 characters' });
 
-    const existing = await User.findOne({ email });
+    const existing = await User.findOne({ email: normalizedEmail });
     if (existing)
       return res.status(409).json({ error: 'Email already registered. Please log in.' });
 
-    const user = new User({ name, email, password, authProvider: 'local' });
+    const user = new User({ name, email: normalizedEmail, password, authProvider: 'local' });
     await user.save();
 
     // Auto-login after register
@@ -35,11 +36,12 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    const normalizedEmail = email?.trim().toLowerCase();
 
-    if (!email || !password)
+    if (!normalizedEmail || !password)
       return res.status(400).json({ error: 'Email and password are required' });
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user)
       return res.status(401).json({ error: 'Invalid email or password' });
 
