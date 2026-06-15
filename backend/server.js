@@ -25,6 +25,9 @@ import authRoutes from './routes/authRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Trust proxy for secure cookies behind reverse proxy (Render, etc.)
+app.set('trust proxy', 1);
+
 // Connect DB
 connectDB();
 
@@ -41,19 +44,31 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session
+// Session middleware
 app.use(session({
   secret: process.env.SESSION_SECRET || 'outreach_secret_2026',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI || 'mongodb://localhost:27017/outreachdb' }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
   },
 }));
+
+// Dynamically configure session cookie security properties based on the connection type (HTTP vs HTTPS)
+app.use((req, res, next) => {
+  if (req.session && req.session.cookie) {
+    if (req.secure) {
+      req.session.cookie.secure = true;
+      req.session.cookie.sameSite = 'none';
+    } else {
+      req.session.cookie.secure = false;
+      req.session.cookie.sameSite = 'lax';
+    }
+  }
+  next();
+});
 
 // ─── Passport – Google OAuth ──────────────────────────────
 passport.use(new GoogleStrategy(

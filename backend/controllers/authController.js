@@ -22,7 +22,10 @@ export const register = async (req, res, next) => {
     const sessionUser = { id: user._id, name: user.name, email: user.email, avatar: user.avatar };
     req.session.user = sessionUser;
 
-    res.status(201).json({ user: sessionUser });
+    req.session.save((err) => {
+      if (err) return next(err);
+      res.status(201).json({ user: sessionUser });
+    });
   } catch (err) {
     next(err);
   }
@@ -50,7 +53,10 @@ export const login = async (req, res, next) => {
     const sessionUser = { id: user._id, name: user.name, email: user.email, avatar: user.avatar };
     req.session.user = sessionUser;
 
-    res.json({ user: sessionUser });
+    req.session.save((err) => {
+      if (err) return next(err);
+      res.json({ user: sessionUser });
+    });
   } catch (err) {
     next(err);
   }
