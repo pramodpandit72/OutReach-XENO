@@ -19,6 +19,8 @@ import receiptRoutes from './routes/receiptRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8000;
